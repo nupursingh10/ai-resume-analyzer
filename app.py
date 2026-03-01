@@ -14,7 +14,7 @@ def home():
 # ===============================
 # Analyze Route (POST)
 # ===============================
-@app.route("/analyze", methods=["POST"])
+@app.route("/analyze", methods=["GET" ,"POST"])
 def analyze():
     try:
         # check if file uploaded
