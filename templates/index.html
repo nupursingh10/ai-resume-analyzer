@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 AI Resume Analyzer</h1>
+        <p style="opacity:0.85; margin-bottom:15px;">
+            Upload your resume and get instant AI feedback
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="resume" required><br>
+            <button type="submit">Analyze Resume</button>
+        </form>
+
+        {% if score is defined %}
+            <div class="score">Score: {{score}} / 100</div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width: {{score}}%;"></div>
+            </div>
+
+            <h3 class="section-title">✅ Skills Found</h3>
+            <ul>
+                {% for s in found %}
+                    <li>{{s}}</li>
+                {% endfor %}
+            </ul>
+
+            <h3 class="section-title">❌ Missing Skills</h3>
+            <ul>
+                {% for m in missing %}
+                    <li>{{m}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
