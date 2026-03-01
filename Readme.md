@@ -166,7 +166,7 @@ ai-resume-analyzer/
 
 ## 🌐 Live Demo
 
-👉 https://YOUR-LINK.onrender.com
+👉 https://ai-resume-analyzer-6ho7.onrender.com
 
 ---
 
