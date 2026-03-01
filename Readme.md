@@ -201,4 +201,4 @@ If you like this project, consider giving it a ⭐ on GitHub!
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — feel free to use and modify for learning purpos
+This project is licensed under the **MIT License** — feel free to use and modify for learning purpose.
