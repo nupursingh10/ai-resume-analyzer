@@ -1,60 +1,55 @@
-from flask import Flask, render_template, request
-import PyPDF2
+from flask import Flask, render_template, request, jsonify
+import os
 
 app = Flask(__name__)
+
+# ===============================
+# Home Route (Frontend)
+# ===============================
 @app.route("/")
 def home():
-    return "AI Resume Analyzer is running 🚀"
+    return render_template("index.html")
 
-# simple skill database
-skills_db = [
-    "python", "java", "javascript", "sql",
-    "machine learning", "html", "css",
-    "react", "flask", "django"
-]
 
-def extract_text_from_pdf(file):
-    reader = PyPDF2.PdfReader(file)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text()
-    return text.lower()
+# ===============================
+# Analyze Route (POST)
+# ===============================
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    try:
+        # check if file uploaded
+        if "resume" not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
 
-def analyze_resume(text):
-    found_skills = []
-
-    for skill in skills_db:
-        if skill in text:
-            found_skills.append(skill)
-
-    score = min(len(found_skills) * 10, 100)
-    missing_skills = list(set(skills_db) - set(found_skills))
-
-    return score, found_skills, missing_skills
-
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
         file = request.files["resume"]
 
-        if file:
-            text = extract_text_from_pdf(file)
-            score, found, missing = analyze_resume(text)
+        if file.filename == "":
+            return jsonify({"error": "Empty filename"}), 400
 
-            return render_template(
-                "index.html",
-                score=score,
-                found=found,
-                missing=missing
-            )
+        # 🔹 TEMP: read file text (we will add AI next)
+        resume_text = file.read().decode("utf-8", errors="ignore")
 
-    return render_template("index.html")
-    @app.route("/analyze", methods=["POST"])
-    def analyze():
-        pass
-     
+        # 🔹 Dummy response for now
+        return jsonify({
+            "status": "success",
+            "message": "Resume received successfully",
+            "length": len(resume_text)
+        })
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ===============================
+# Health Check (optional but pro)
+# ===============================
+@app.route("/health")
+def health():
+    return {"status": "ok"}
+
+
+# ===============================
+# Local Run (Render ignores this)
+# ===============================
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
