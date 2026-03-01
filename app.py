@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 import PyPDF2
 
 app = Flask(__name__)
+@app.route("/")
+def home():
+    return "AI Resume Analyzer is running 🚀"
 
 # simple skill database
 skills_db = [
@@ -46,6 +49,10 @@ def index():
             )
 
     return render_template("index.html")
+    @app.route("/analyze", methods=["POST"])
+    def analyze():
+        pass
+     
 
 if __name__ == "__main__":
     import os
